@@ -1,0 +1,17 @@
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\bin\Debug\net8.0-windows\Lab1.exe
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\bin\Debug\net8.0-windows\Lab1.dll.config
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\bin\Debug\net8.0-windows\Lab1.deps.json
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\bin\Debug\net8.0-windows\Lab1.runtimeconfig.json
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\bin\Debug\net8.0-windows\Lab1.dll
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\bin\Debug\net8.0-windows\Lab1.pdb
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\obj\Debug\net8.0-windows\Laba1.Form1.resources
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\obj\Debug\net8.0-windows\Lab1.csproj.GenerateResource.cache
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\obj\Debug\net8.0-windows\Lab1.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\obj\Debug\net8.0-windows\Lab1.AssemblyInfoInputs.cache
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\obj\Debug\net8.0-windows\Lab1.AssemblyInfo.cs
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\obj\Debug\net8.0-windows\Lab1.csproj.CoreCompileInputs.cache
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\obj\Debug\net8.0-windows\Lab1.dll
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\obj\Debug\net8.0-windows\refint\Lab1.dll
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\obj\Debug\net8.0-windows\Lab1.pdb
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\obj\Debug\net8.0-windows\Lab1.genruntimeconfig.cache
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab1\Lab1\obj\Debug\net8.0-windows\ref\Lab1.dll

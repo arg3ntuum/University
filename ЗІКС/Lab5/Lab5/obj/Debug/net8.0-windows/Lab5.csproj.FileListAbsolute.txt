@@ -1,0 +1,16 @@
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\obj\Debug\net8.0-windows\FileModifierWinForms.Form1.resources
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\obj\Debug\net8.0-windows\Lab5.csproj.GenerateResource.cache
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\obj\Debug\net8.0-windows\Lab5.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\obj\Debug\net8.0-windows\Lab5.AssemblyInfoInputs.cache
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\obj\Debug\net8.0-windows\Lab5.AssemblyInfo.cs
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\obj\Debug\net8.0-windows\Lab5.csproj.CoreCompileInputs.cache
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\bin\Debug\net8.0-windows\Lab5.exe
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\bin\Debug\net8.0-windows\Lab5.deps.json
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\bin\Debug\net8.0-windows\Lab5.runtimeconfig.json
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\bin\Debug\net8.0-windows\Lab5.dll
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\bin\Debug\net8.0-windows\Lab5.pdb
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\obj\Debug\net8.0-windows\Lab5.dll
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\obj\Debug\net8.0-windows\refint\Lab5.dll
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\obj\Debug\net8.0-windows\Lab5.pdb
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\obj\Debug\net8.0-windows\Lab5.genruntimeconfig.cache
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab5\Lab5\obj\Debug\net8.0-windows\ref\Lab5.dll

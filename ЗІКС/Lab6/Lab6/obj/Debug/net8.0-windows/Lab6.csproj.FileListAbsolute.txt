@@ -1,0 +1,16 @@
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\obj\Debug\net8.0-windows\VirusDetectionApp.Form1.resources
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\obj\Debug\net8.0-windows\Lab6.csproj.GenerateResource.cache
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\obj\Debug\net8.0-windows\Lab6.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\obj\Debug\net8.0-windows\Lab6.AssemblyInfoInputs.cache
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\obj\Debug\net8.0-windows\Lab6.AssemblyInfo.cs
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\obj\Debug\net8.0-windows\Lab6.csproj.CoreCompileInputs.cache
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\bin\Debug\net8.0-windows\Lab6.exe
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\bin\Debug\net8.0-windows\Lab6.deps.json
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\bin\Debug\net8.0-windows\Lab6.runtimeconfig.json
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\bin\Debug\net8.0-windows\Lab6.dll
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\bin\Debug\net8.0-windows\Lab6.pdb
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\obj\Debug\net8.0-windows\Lab6.dll
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\obj\Debug\net8.0-windows\refint\Lab6.dll
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\obj\Debug\net8.0-windows\Lab6.pdb
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\obj\Debug\net8.0-windows\Lab6.genruntimeconfig.cache
+C:\Users\Ростислав\Desktop\Univercity\ЗИКС\Lab6\Lab6\obj\Debug\net8.0-windows\ref\Lab6.dll

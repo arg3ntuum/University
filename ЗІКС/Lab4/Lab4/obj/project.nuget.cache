@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "LrhDL7sW9BY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Ростислав\\Desktop\\Univercity\\ЗИКС\\Lab4\\Lab4\\Lab4.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Ростислав\\.nuget\\packages\\system.codedom\\9.0.3\\system.codedom.9.0.3.nupkg.sha512",
+    "C:\\Users\\Ростислав\\.nuget\\packages\\system.management\\9.0.3\\system.management.9.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
