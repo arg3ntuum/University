@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSockets, SSE та Web Worker Demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; gap: 30px; padding: 20px; background-color: #f4f4f4; }
+        .module { border: 1px solid #ccc; padding: 20px; border-radius: 8px; background-color: white; width: 33%; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h2 { border-bottom: 2px solid #007bff; padding-bottom: 5px; color: #333; }
+        #chat-window { height: 300px; overflow-y: scroll; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; background-color: #fafafa; }
+        .message { margin-bottom: 5px; }
+        .status { color: gray; font-style: italic; font-size: 0.8em; }
+        .worker-output { margin-top: 10px; background-color: #e9e9e9; padding: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <div id="websocket-module" class="module">
+        <h2>(а) WebSocket Чат</h2>
+        <p>Спробуйте відкрити два вікна браузера для чату.</p>
+        <div id="chat-window"></div>
+        <input type="text" id="chat-input" placeholder="Ваше повідомлення..." style="width: 70%; padding: 5px;">
+        <button onclick="sendMessage()" style="padding: 5px 10px;">Надіслати</button>
+    </div>
+    <div id="bitcoin-module" class="module">
+        <h2>Курс біткойна (SSE)</h2>
+        <div id="btcPrice">Завантаження...</div>
+    <script src="price_sse.js"></script>
+    </div>
+    
+    <div id="worker-module" class="module">
+        <h2>(в) Web Worker (Факторіал)</h2>
+        <p>Обчислення факторіала великого числа (блокуюча операція) у фоновому потоці.</p>
+        <input type="number" id="worker-input" value="10000" min="1" max="50000" style="padding: 5px;">
+        <button onclick="calculateFactorial()" style="padding: 5px 10px;">Обчислити</button>
+        <div class="worker-output">
+            <p>Статус: <span id="worker-status">Готовий</span></p>
+            <p>Результат (перші 100 цифр): <span id="worker-result">---</span></p>
+        </div>
+    </div>
+
+    <script src="client.js"></script>
+
+</body>
+</html>

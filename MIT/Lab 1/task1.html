@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Реєстраційна форма</title>
+    <style>
+        input {
+            width: 150px;
+        }
+
+        input:invalid {
+            border-color: red;
+        }
+
+        input:valid {
+            border-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="task1.html">Завдання 1. Реєстраційна форма.</a>
+        <a href="task2.html">Завдання 2. Створіть список справ.</a>
+        <a href="task3.html">Завдання 3. Перевірка вводу віку.</a>
+        <a href="task4.html">Завдання 4. Інтерактивний календар.</a>
+    </nav>
+    <h1>Реєстраційна форма</h1>
+    <p>
+    <form id="registerForm" name="registerForm" method="post" action="register">
+        <p>
+            <label for="username">Ваше ім'я:</label><br>
+            <input id="username" name="username" maxlength="20" minlength="3" required>
+        </p>
+        <p>
+            <label for="surname">Ваше прізвище:</label><br>
+            <input id="surname" name="surname" maxlength="20" minlength="3" required>
+        </p>
+        <p>
+            <label for="email">Ваш email:</label><br>
+            <input id="email" name="email" type="email" required>
+        </p>
+        <p>
+            <label for="password">Password:</label><br>
+            <input id="password" name="password" type="password" required>
+        </p>
+        <p>
+            <label for="repeat_password">Repeat password:</label><br>
+            <input id="repeat_password" name="repeat_password" type="password" required>
+        </p>
+        <button type="submit" id="submit" name="submit">Register</button>
+    </form>
+    </p>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            // Запобігаємо стандартній відправці форми
+            event.preventDefault();
+
+            // Отримуємо значення полів
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const repeat_password = document.getElementById('repeat_password').value;
+
+            // Регулярний вираз для перевірки електронної пошти
+            const emailRegex = /^\S+@\S+\.\S+$/;
+
+            // Перевірка електронної пошти
+            if (!emailRegex.test(email)) {
+                alert('Будь ласка, введіть коректну електронну пошту.');
+                return; // Зупиняємо виконання функції
+            }
+
+            // Перевірка паролів
+            if (password !== repeat_password) {
+                alert('Паролі не співпадають.');
+                return;
+            }
+
+            // Якщо всі перевірки пройшли
+            alert('Реєстрація успішна!');
+            this.submit(); // Відправляємо форму
+        });
+
+
+    </script>
+</body>
+
+</html>
+
+<!-- 1) Реєстраційна форма. 
+  Створіть HTML-документ з формою реєстрації, яка включає поля
+  для введення імені, прізвища, електронної пошти, пароля та підтвердження пароля. 
+  Додайте кнопку "Зареєструватися". Напишіть скрипт, який перевіряє
+  електронну пошту (містить символи «@» та «.», є символи до @ і після @, та після «.»), 
+  чи збігаються паролі, і, якщо ні, виводить повідомлення про помилку.
+
+2) Створіть список справ. Написати скрипт, що дозволяє користувачеві додавати завдання
+ до списку, редагувати, а також видаляти їх.
+
+3) Перевірка вводу віку. Створіть форму з полем для введення віку. 
+За допомогою JavaScript перевіряйте, чи вік більше 18 років. 
+Якщо ні — відображайте повідомлення про помилку і блокуйте відправлення форми.
+
+4) Інтерактивний календар. Створіть календар, який відображає поточний місяць 
+і дозволяє користувачу перемикатися між місяцями та роками. 
+При натисканні на дату відкривається форма для додавання нотатки, 
+яка зберігається в 'localStorage' і відображається, коли знову відкривається календар
+
+https://dnulivedp.sharepoint.com/:w:/r/sites/25-25_o1-zpb/_layouts/15/Doc2.aspx?action=edit&sourcedoc=%7B22f86761-61a8-42d4-97a0-e733967d4ab7%7D&wdOrigin=TEAMS-MAGLEV.teamsSdk_ns.rwc&wdExp=TEAMS-TREATMENT&wdhostclicktime=1758635239618&web=1
+
+-->

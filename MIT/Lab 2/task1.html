@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Інтерактивні можливості браузера: вікна, діалоги, таймери</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        .example {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+
+        .example h3 {
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        button {
+            padding: 8px 15px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="example">
+        <h3>Властивості window та screen</h3>
+        <p>Ширина вікна (inner): <span id="innerWidth"></span> px</p>
+        <p>Висота екрана (screen): <span id="screenHeight"></span> px</p>
+        <button onclick="displayWindowInfo()">Показати дані</button>
+    </div>
+
+    <div class="example">
+        <h3>Діалогові вікна</h3>
+        <button onclick="showAlert()">Alert (Повідомлення)</button>
+        <button onclick="showConfirm()">Confirm (Підтвердження)</button>
+        <button onclick="showPrompt()">Prompt (Ввід даних)</button>
+        <p id="dialogResult"></p>
+    </div>
+
+    <div class="example">
+        <h3>Відкриття, закриття та позиціонування вікон</h3>
+        <button onclick="openNewWindow()">Відкрити нове вікно</button>
+        <button onclick="closeCurrentWindow()" disabled id="closeBtn">Закрити нове вікно</button>
+    </div>
+
+    <div class="example">
+        <h3>Об'єкт location. Управління адресою</h3>
+        <p>Поточний URL: <span id="currentURL"></span></p>
+        <button onclick="redirectToGoogle()">Перейти на Google</button>
+    </div>
+
+    <div class="example">
+        <h3>Історія браузера. History API</h3>
+        <button onclick="historyBack()">Назад</button>
+        <button onclick="historyForward()">Вперед</button>
+        <button onclick="alertHistoryState()">State</button>
+        <p>Кількість записів в історії: <span id="historyLength"></span></p>
+    </div>
+
+    <div class="example">
+        <h3>Таймери (setTimeout, setInterval)</h3>
+        <button onclick="startDelayedMessage()">setTimeout (3 сек)</button>
+        <button onclick="startCounter()">setInterval (Счетчик)</button>
+        <button onclick="stopCounter()" disabled id="stopCounterBtn">Зупинити лічильник</button>
+        <p>Лічильник: <span id="counter">0</span></p>
+        <p id="timeoutMessage"></p>
+    </div>
+
+    <div class="example">
+        <button onclick="openAndStart()">Відкрити нове вікно та ЗАПУСТИТИ</button>
+        <button onclick="stopResize()" disabled id="stopResizeBtn">ЗУПИНИТИ зміну розміру</button>
+        <p id="statusMessage">Варіант 1</p>
+    </div>
+
+    <script>
+        // Глобальні змінні
+        let newWindow = null;
+        let counterInterval = null;
+
+        // --- Властивості window, screen, Компоненти браузера ---
+        function displayWindowInfo() {
+            document.getElementById('innerWidth').textContent = window.innerWidth;
+            document.getElementById('screenHeight').textContent = screen.height;
+            // Компоненти браузера (приклади):
+            console.log('Ім\'я браузера:', navigator.appName);
+            console.log('Версія браузера:', navigator.appVersion);
+            console.log('Платформа:', navigator.platform);
+        }
+
+        // --- Діалогові вікна ---
+        function showAlert() {
+            alert('Це просте повідомлення (Alert).');
+        }
+
+        function showConfirm() {
+            const result = confirm('Ви згодні? (Confirm)');
+            document.getElementById('dialogResult').textContent = `Результат Confirm: ${result ? 'Так' : 'Ні'}`;
+        }
+
+        function showPrompt() {
+            const name = prompt('Введіть ваше ім\'я (Prompt):', 'Гость');
+            document.getElementById('dialogResult').textContent = `Результат Prompt: ${name || 'Скасовано'}`;
+        }
+
+        // --- Відкриття, закриття та позиціонування вікон ---
+        function openNewWindow() {
+            // Відкриваємо нове вікно з заданими параметрами позиції та розміру
+            newWindow = window.open('about:blank', 'newWin', 'width=300,height=200,left=100,top=100');
+            if (newWindow) {
+                newWindow.document.write('<h1>Це нове вікно</h1>');
+                document.getElementById('closeBtn').disabled = false;
+            } else {
+                alert("Браузер заблокував спливаюче вікно. Дозвольте його.");
+            }
+        }
+
+        function closeCurrentWindow() {
+            if (newWindow && !newWindow.closed) {
+                newWindow.close();
+                document.getElementById('closeBtn').disabled = true;
+                newWindow = null;
+            }
+        }
+
+        // --- Об'єкт location. Управління адресою ---
+        document.getElementById('currentURL').textContent = location.href;
+        function redirectToGoogle() {
+            // location.assign('https://www.google.com'); // Перехід з можливістю повернутися
+            location.replace('https://www.google.com'); // Перехід без можливості повернутися History.back()
+        }
+
+        // --- Історія браузера. History API  str 17---
+        document.getElementById('historyLength').textContent = history.length;
+
+        function historyBack() {
+            history.back();
+        }
+
+        function historyForward() {
+            history.forward();
+        }
+
+        function alertHistoryState() {
+            alert(`Поточний стан історії: ${history.state}`);
+        }
+
+        // --- Таймери: setTimeout та setInterval ---
+        function startDelayedMessage() {
+            document.getElementById('timeoutMessage').textContent = 'Повідомлення з\'явиться через 3 секунди...';
+            setTimeout(() => {
+                document.getElementById('timeoutMessage').textContent = 'Повідомлення з\'явилося!';
+            }, 3000);
+        }
+
+        function startCounter() {
+            let count = 0;
+            document.getElementById('stopCounterBtn').disabled = false;
+
+            // Запускаємо лічильник, який оновлюється кожну секунду (1000 мс)
+            counterInterval = setInterval(() => {
+                count++;
+                document.getElementById('counter').textContent = count;
+            }, 1000);
+        }
+
+        function stopCounter() {
+            clearInterval(counterInterval);
+            document.getElementById('stopCounterBtn').disabled = true;
+            document.getElementById('counter').textContent = '0 (Зупинено)';
+        }
+        ////////////////////////////////////////////////////////////////
+        //
+        // --- Варіант 1: Зміна розміру вікна кожні 2 секунди ---
+        //
+        let resizeInterval = null;
+        let controlledWindow = null; 
+
+        // Функція для запуску таймера зміни розміру
+        function runResizeTimer() {
+             if (resizeInterval) return; // Запобігаємо подвійному запуску
+             
+             document.getElementById('stopResizeBtn').disabled = false;
+             document.getElementById('statusMessage').textContent = 'Зміна розміру запущена в новому вікні.';
+
+             resizeInterval = setInterval(() => {
+                // Перевіряємо, чи не закрите вікно
+                if (!controlledWindow || controlledWindow.closed) {
+                    stopResize();
+                    document.getElementById('statusMessage').textContent = 'Вікно було закрито. Таймер зупинено.';
+                    return;
+                }
+                
+                // Генеруємо випадкові розміри (наприклад, від 350px до 700px)
+                const newWidth = Math.floor(Math.random() * (700 - 350 + 1)) + 350;
+                const newHeight = Math.floor(Math.random() * (600 - 300 + 1)) + 300;
+                
+                // Змінюємо розмір нового вікна
+                controlledWindow.resizeTo(newWidth, newHeight);
+
+            }, 2000); // Кожні 2 секунди
+        }
+        
+        // Функція для відкриття вікна
+        function openAndStart() {
+            // Якщо вікно вже існує і відкрите, просто запускаємо таймер
+            if (controlledWindow && !controlledWindow.closed) {
+                runResizeTimer();
+                return;
+            }
+            
+            // Відкриваємо нове вікно.
+            // Параметри 'width' і 'height' задають початковий розмір.
+            controlledWindow = window.open('about:blank', 'ControlledWindow', 'width=400,height=300');
+
+            if (!controlledWindow) {
+                 alert("Браузер заблокував спливаюче вікно. Будь ласка, дозвольте його.");
+                 return;
+            }
+
+            // Додаємо вміст, щоб було видно, що це те саме вікно
+            controlledWindow.document.write('<h1>Я змінююсь!</h1><p>Скрипт змінює мій розмір кожні 2 секунди.</p>');
+            
+            // Запускаємо таймер одразу
+            runResizeTimer();
+        }
+
+        function stopResize() {
+            clearInterval(resizeInterval);
+            resizeInterval = null;
+            document.getElementById('stopResizeBtn').disabled = true;
+            document.getElementById('statusMessage').textContent = 'Таймер зупинено.';
+
+            // Опціонально: повернути вікно в початковий розмір
+            if (controlledWindow && !controlledWindow.closed) {
+                 controlledWindow.resizeTo(400, 300);
+            }
+            controlledWindow.close();
+        }
+        
+        // Запускаємо перевірку, чи не було вікно закрито вручну
+        window.addEventListener('beforeunload', stopResize); 
+
+        // Додамо перевірку при закритті початкового вікна
+        window.addEventListener('unload', () => {
+             if (controlledWindow && !controlledWindow.closed) {
+                 controlledWindow.close();
+             }
+        });
+
+        // Ініціалізація
+        updateCurrentSize();
+        displayWindowInfo(); // Початкове відображення даних
+    </script>
+</body>
+
+</html>
+
+<!-- 2. Завдання
+1. Ознайомитися з теоретичною частиною.
+2. Зробить свої приклади коду для наступних тем:
+· Властивості window - meth. displayWindowInfo()
+· Компоненти браузера - displayWindowInfo()
+· Властивість screen - displayWindowInfo()
+· Діалогові вікна - showAlert(), showConfirm(), showPrompt()
+· Відкриття, закриття та позиціонування вікон - closeCurrentWindow(), openNewWindow()
+· Історія браузера. History API - 
+· Об'єкт location. Управління адресою - redirectToGoogle()
+· Таймери - startDelayedMessage()
+· Функція setTimeout - startDelayedMessage
+· Функція setInterval - startCounter(), stopCounter()
+3. Виконати завдання свого варіанту.
+1. Маніпулювання властивостями вікна:
+Напишіть код, який змінює розміри вікна браузера кожні
+ 2 секунди на різні випадкові значення за допомогою `window.resizeTo()`.
+-->

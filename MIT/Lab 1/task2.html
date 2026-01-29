@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список справ</title>
+    <style>
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="task1.html">Завдання 1. Реєстраційна форма.</a>
+        <a href="task2.html">Завдання 2. Створіть список справ.</a>
+        <a href="task3.html">Завдання 3. Перевірка вводу віку.</a>
+        <a href="task4.html">Завдання 4. Інтерактивний календар.</a>
+    </nav>
+
+    <div class="container">
+        <h1>Мій список справ</h1>
+        <div class="input-group">
+            <input type="text" id="taskInput" placeholder="Додати нове завдання...">
+            <button id="addTaskBtn">Додати</button>
+        </div>
+        <ul id="taskList">
+        </ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const taskInput = document.getElementById('taskInput');
+            const addTaskBtn = document.getElementById('addTaskBtn');
+            const taskList = document.getElementById('taskList');
+
+            // Функція для додавання завдання
+            function addTask() {
+                const taskText = taskInput.value.trim();
+                if (taskText === '') {
+                    return; // Не додаємо порожні завдання
+                }
+
+                const listItem = document.createElement('li');
+
+                const taskSpan = document.createElement('span');
+                taskSpan.textContent = taskText;
+                listItem.appendChild(taskSpan);
+
+                const actionsDiv = document.createElement('div');
+
+                // Кнопка редагування
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Редагувати';
+                editBtn.classList.add('edit-btn');
+                editBtn.addEventListener('click', () => {
+                    const newText = prompt('Редагувати завдання:', taskSpan.textContent);
+                    if (newText !== null && newText.trim() !== '') {
+                        taskSpan.textContent = newText.trim();
+                    }
+                });
+                actionsDiv.appendChild(editBtn);
+
+                // Кнопка видалення
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Видалити';
+                deleteBtn.classList.add('delete-btn');
+                deleteBtn.addEventListener('click', () => {
+                    if (confirm('Ви впевнені, що хочете видалити це завдання?')) {
+                        taskList.removeChild(listItem);
+                    }
+                });
+                actionsDiv.appendChild(deleteBtn);
+
+                listItem.appendChild(actionsDiv);
+                taskList.appendChild(listItem);
+
+                taskInput.value = ''; // Очистити поле введення
+            }
+
+            // Додати завдання при кліку на кнопку
+            addTaskBtn.addEventListener('click', addTask);
+
+            // Додати завдання при натисканні Enter в полі введення
+            taskInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    addTask();
+                }
+            });
+        });
+
+    </script>
+</body>
+
+</html>
+
+
+<!-- 1) Реєстраційна форма. 
+  Створіть HTML-документ з формою реєстрації, яка включає поля
+  для введення імені, прізвища, електронної пошти, пароля та підтвердження пароля. 
+  Додайте кнопку "Зареєструватися". Напишіть скрипт, який перевіряє
+  електронну пошту (містить символи «@» та «.», є символи до @ і після @, та після «.»), 
+  чи збігаються паролі, і, якщо ні, виводить повідомлення про помилку.
+
+2) Створіть список справ. Написати скрипт, що дозволяє користувачеві додавати завдання
+ до списку, редагувати, а також видаляти їх.
+
+3) Перевірка вводу віку. Створіть форму з полем для введення віку. 
+За допомогою JavaScript перевіряйте, чи вік більше 18 років. 
+Якщо ні — відображайте повідомлення про помилку і блокуйте відправлення форми.
+
+4) Інтерактивний календар. Створіть календар, який відображає поточний місяць 
+і дозволяє користувачу перемикатися між місяцями та роками. 
+При натисканні на дату відкривається форма для додавання нотатки, 
+яка зберігається в 'localStorage' і відображається, коли знову відкривається календар-->

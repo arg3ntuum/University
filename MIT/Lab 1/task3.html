@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Перевірка вводу віку</title>
+</head>
+<body>
+    <nav>
+        <a href="task1.html">Завдання 1. Реєстраційна форма.</a>
+        <a href="task2.html">Завдання 2. Створіть список справ.</a>
+        <a href="task3.html">Завдання 3. Перевірка вводу віку.</a>
+        <a href="task4.html">Завдання 4. Інтерактивний календар.</a>
+    </nav>
+
+    <div class="container">
+        <h2>Перевірка віку</h2>
+        
+        <form id="ageForm">
+            <label for="ageInput">Введіть ваш вік:</label>
+            <input type="number" id="ageInput" name="age" required min="0">
+            
+            <div id="errorMessage" class="error-message"></div>
+            
+            <button type="submit">Відправити</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('ageForm').addEventListener('submit', function(event) {
+            
+            const ageInput = document.getElementById('ageInput');
+            const errorMessageDiv = document.getElementById('errorMessage');
+            const age = parseInt(ageInput.value); // Перетворюємо введене значення на ціле число
+
+            errorMessageDiv.textContent = '';
+            
+            if (isNaN(age) || age < 1) {
+                errorMessageDiv.textContent = 'Будь ласка, введіть коректний вік.';
+                event.preventDefault(); // Блокуємо відправлення форми
+                return;
+            }
+
+            if (age < 18 && age <= 100) {
+                errorMessageDiv.textContent = 'Ви повинні бути старше 18 років і молодше 100 для реєстрації.';
+                event.preventDefault(); // Блокуємо відправлення форми
+            } else{
+                alert('Перевірка пройдена. Вік дозволено!');                
+            }
+        });
+    </script>
+</body>
+</html>

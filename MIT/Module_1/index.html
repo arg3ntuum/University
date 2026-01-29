@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Завдання №47 та №30</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0056b3;
+      margin-bottom: 30px;
+    }
+
+    section {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+    }
+
+    h2 {
+      color: #007bff;
+      border-bottom: 2px solid #007bff20;
+      padding-bottom: 5px;
+    }
+
+    pre {
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      overflow-x: auto;
+      font-size: 14px;
+      color: #222;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 10px 18px;
+      margin: 8px 5px 0 0;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    #add {
+      background-color: #28a745;
+      color: white;
+    }
+
+    #add:hover {
+      background-color: #218838;
+      transform: scale(1.05);
+    }
+
+    #remove {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    #remove:hover {
+      background-color: #c82333;
+      transform: scale(1.05);
+    }
+
+    /* Коментарі для завдань */
+    .task-label {
+      display: inline-block;
+      background: #007bff;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-right: 5px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #666;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>JavaScript лабораторна робота</h1>
+
+  <section>
+    <h2><span class="task-label">№47</span> Створення файлу з сервера (JSON)</h2>
+    <p>Дані, отримані із сервера:</p>
+    <pre id="output">Очікування даних...</pre>
+  </section>
+
+  <section>
+    <h2><span class="task-label">№30</span> Додавання та видалення з історії браузера</h2>
+    <button id="add">Додати запис</button>
+    <button id="remove">Видалити останній запис</button>
+  </section>
+
+  <footer>© Лабораторна робота з JavaScript</footer>
+
+  <script>
+    /* 
+    ============================================================
+      ЗАВДАННЯ №47
+      "Створіть запит на сервер, який повертає файл у форматі JSON,
+      та виведіть його вміст на сторінку, зберігаючи дані в локальній змінній."
+    ============================================================
+    */
+
+    let localData = null;
+
+    fetch("http://localhost:3000")
+      .then(response => response.json())        
+      .then(data => {
+        localData = data;                       
+        document.getElementById("output").textContent = 
+          JSON.stringify(data, null, 2);        
+      })
+      .catch(err => {
+        document.getElementById("output").textContent = 
+          "Помилка отримання даних з сервера.";
+        console.error("Помилка:", err);
+      });
+
+
+    /* 
+    ============================================================
+      ЗАВДАННЯ №30
+      "Створіть сценарій, який додає запис у історію браузера після 
+      кожного кліку на кнопку, а потім видаляє останній запис 
+      за допомогою history.replaceState()."
+    ============================================================
+    */
+
+    let counter = 0; 
+
+    document.getElementById("add").addEventListener("click", () => {
+      counter++;
+      const state = { page: counter };
+      const title = `Сторінка ${counter}`;
+      const url = `?page=${counter}`;
+
+      history.pushState(state, title, url);
+      console.log("Додано в історію:", state);
+    });
+
+    document.getElementById("remove").addEventListener("click", () => {
+      if (counter > 0) {
+        counter--;
+        const state = { page: counter };
+        const title = `Сторінка ${counter}`;
+        const url = counter > 0 ? `?page=${counter}` : "/";
+
+        history.replaceState(state, title, url);
+        console.log("Видалено останній запис:", state);
+      } else {
+        console.log("Історія порожня, нічого видаляти.");
+      }
+    });
+  </script>
+</body>
+</html>

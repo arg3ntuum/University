@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Інтерактивний календар</title>
+    <style>
+        /* Мінімальні стилі для читабельності */
+        .calendar-container {
+            max-width: 400px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .weekdays, .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+        }
+        .day {
+            padding: 5px;
+            border: 1px solid #eee;
+            cursor: pointer;
+            margin: 1px;
+        }
+        .has-note {
+            background-color: #d9ffdb; /* Легкий колір для позначки нотатки */
+            font-weight: bold;
+        }
+        /* Модальне вікно */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        #noteTextarea {
+            width: 98%;
+            min-height: 100px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button id="prevBtn">&lt; Попередній</button>
+            <h2 id="monthYear"></h2>
+            <button id="nextBtn">Наступний &gt;</button>
+        </div>
+
+        <div class="weekdays">
+            <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Нд</span>
+        </div>
+
+        <div class="calendar-grid" id="calendarGrid">
+            </div>
+    </div>
+
+    <div id="noteModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 id="modalDate"></h3>
+            <textarea id="noteTextarea" placeholder="Ваша нотатка..."></textarea>
+            <button id="saveNoteBtn">Зберегти</button>
+            <button id="deleteNoteBtn" style="margin-left: 10px;">Видалити</button>
+        </div>
+    </div>
+
+    <script>
+       document.addEventListener('DOMContentLoaded', () => {
+    // --- Змінні для DOM-елементів ---
+    const monthYearDisplay = document.getElementById('monthYear');
+    const calendarGrid = document.getElementById('calendarGrid');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    // --- Модальне вікно ---
+    const modal = document.getElementById('noteModal');
+    const modalDateDisplay = document.getElementById('modalDate');
+    const noteTextarea = document.getElementById('noteTextarea');
+    const saveNoteBtn = document.getElementById('saveNoteBtn');
+    const deleteNoteBtn = document.getElementById('deleteNoteBtn');
+    const closeModalBtn = document.querySelector('.close-btn');
+
+    // --- Змінні стану ---
+    let currentDate = new Date();
+    let selectedDateKey = ''; 
+    const STORAGE_KEY = 'calendarNotes';
+
+    // --- Функції localStorage ---
+    function getNotes() {
+        const notes = localStorage.getItem(STORAGE_KEY);
+        return notes ? JSON.parse(notes) : {};
+    }
+
+    function saveNotes(notes) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+    }
+
+    // --- Рендеринг календаря ---
+    function renderCalendar() {
+        calendarGrid.innerHTML = '';
+        
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+        const monthNames = ["Січень", "Лютий", "Березень", "Квітень", "Травень", "Червень", "Липень", "Серпень", "Вересень", "Жовтень", "Листопад", "Грудень"];
+        
+        monthYearDisplay.textContent = `${monthNames[month]} ${year}`;
+
+        // Обчислення першого дня місяця (0=Неділя, 1=Понеділок...)
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const startDayIndex = (firstDayOfMonth === 0) ? 6 : firstDayOfMonth - 1; // Перетворення Неділі на останній день
+
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const notes = getNotes();
+        
+        // Створення порожніх клітинок
+        for (let i = 0; i < startDayIndex; i++) {
+            calendarGrid.appendChild(document.createElement('div'));
+        }
+
+        // Створення клітинок з днями
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayCell = document.createElement('div');
+            dayCell.textContent = day;
+            dayCell.classList.add('day');
+            
+            const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            dayCell.dataset.date = dateKey;
+
+            // Позначка нотатки
+            if (notes[dateKey] && notes[dateKey].trim() !== '') {
+                dayCell.classList.add('has-note');
+            }
+
+            dayCell.addEventListener('click', () => openNoteModal(dateKey));
+            calendarGrid.appendChild(dayCell);
+        }
+    }
+
+    // --- Логіка модального вікна ---
+    function openNoteModal(dateKey) {
+        selectedDateKey = dateKey;
+        const notes = getNotes();
+        const noteContent = notes[dateKey] || '';
+
+        modalDateDisplay.textContent = new Date(dateKey).toLocaleDateString('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' });
+        noteTextarea.value = noteContent;
+        
+        // Показуємо кнопку видалення, якщо нотатка існує
+        deleteNoteBtn.style.display = noteContent ? 'inline-block' : 'none';
+
+        modal.style.display = 'block';
+    }
+
+    function closeNoteModal() {
+        modal.style.display = 'none';
+        renderCalendar(); // Оновлення календаря після закриття
+    }
+
+    function saveNote() {
+        const notes = getNotes();
+        const noteContent = noteTextarea.value.trim();
+
+        if (noteContent) {
+            notes[selectedDateKey] = noteContent;
+        } else {
+            delete notes[selectedDateKey];
+        }
+
+        saveNotes(notes);
+        closeNoteModal();
+    }
+
+    function deleteNote() {
+        const notes = getNotes();
+        delete notes[selectedDateKey];
+        saveNotes(notes);
+        closeNoteModal();
+    }
+
+    // --- Обробники подій ---
+    prevBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar();
+    });
+
+    closeModalBtn.addEventListener('click', closeNoteModal);
+    saveNoteBtn.addEventListener('click', saveNote);
+    deleteNoteBtn.addEventListener('click', deleteNote);
+
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            closeNoteModal();
+        }
+    });
+
+    // Початкове відображення
+    renderCalendar();
+});
+    </script>
+</body>
+</html>

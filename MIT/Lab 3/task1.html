@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Асинхронна</title>
+    <style>
+        .example { margin-bottom: 25px; padding: 15px; border: 1px solid #ccc; background-color: #fff; border-radius: 5px; }
+        .output { background-color: #e9ecef; padding: 10px; margin-top: 10px; border-radius: 3px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+       
+    <h2>Асинхронне завантаження з трьох джерел</h2>
+    <div class="example task-output">
+        <button onclick="loadAllSourcesSequentially()">Запустити Завдання (Promise.allSettled)</button>
+        <p>Результати будуть виведені в консоль.</p>
+    </div>
+
+    <h2>Просто завдання</h2>
+    
+    <div class="example">
+        <h3>a. Callbacks (Функції зворотного виклику)</h3>
+        <p>Демонстрація послідовності виконання з використанням функції зворотного виклику.</p>
+        <button onclick="runCallbackExample()">Запустити приклад Callbacks</button>
+    </div>
+
+    <div class="example">
+        <h3>b. Promise (Проміси) та c. Обробка помилок</h3>
+        <p>Демонстрація успішного виконання та обробки помилок Промісів.</p>
+        <button onclick="runPromiseExample(false)">Запустити успішний Проміс</button>
+        <button onclick="runPromiseExample(true)">Запустити Проміс з помилкою</button>
+    </div>
+
+    <div class="example">
+        <h3>d. Створення ланцюжків Промісів (Chaining)</h3>
+        <p>Демонстрація послідовної передачі результатів між Промісами.</p>
+        <button onclick="runPromiseChainExample()">Запустити ланцюжок</button>
+    </div>
+    
+    <div class="example">
+        <h3>e. Promise.all / Promise.race / Promise.allSettled / Promise.any</h3>
+        <p>Демонстрація поведінки різних комбінаторів Промісів.</p>
+        <button onclick="runPromiseCombinators()">Запустити комбінатори</button>
+    </div>
+
+    <div class="example">
+        <h3>f. Async та await</h3>
+        <p>Демонстрація послідовного асинхронного виконання, яке виглядає як синхронне.</p>
+        <button onclick="runAsyncAwait()">Запустити Async/await</button>
+    </div>
+    
+    <div class="example">
+        <h3>g. Асинхронні ітератори та h. Асинхронні генератори</h3>
+        <p>Демонстрація циклу <code>for await (const value of generator)</code>.</p>
+        <button onclick="runAsyncGeneratorExample()">Запустити Async Generator</button>
+    </div>
+    
+    <script>
+        const DELAY = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+        
+        // =======================================================
+        // a. Асинхронні функції з використанням функцій зворотного виклику
+        // =======================================================
+        function fetchDataWithCallback(callback) {
+            console.log("\n--- Callbacks ---");
+            console.log("1. Початок завантаження (2с)...");
+            setTimeout(() => {
+                const data = "Дані, отримані через 2 секунди.";
+                callback(data);
+            }, 2000);
+        }
+
+        function processResult(result) {
+            console.log(`2. Отримано результат: ${result}`);
+        }
+        
+        function runCallbackExample() {
+            fetchDataWithCallback(processResult);
+        }
+
+
+        // =======================================================
+        // b. Promise та c. Обробка помилок у Promise
+        // =======================================================
+        function riskyOperation(shouldFail) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (shouldFail) {
+                        reject(new Error("Помилка: Операція не вдалася."));
+                    } else {
+                        resolve("Операція успішна.");
+                    }
+                }, 1000);
+            });
+        }
+        
+        function runPromiseExample(shouldFail) {
+            console.log("\n--- Promise та Обробка помилок ---");
+            riskyOperation(shouldFail)
+                .then(result => {
+                    console.log(`Успіх: ${result}`);
+                })
+                .catch(error => {
+                    console.error(`Обробка помилки: ${error.message}`);
+                });
+        }
+
+
+        // =======================================================
+        // d. Створення ланцюжків Промісів
+        // =======================================================
+        function step1(value) {
+            return new Promise(resolve => {
+                console.log(`1. Крок: Початкове значення: ${value}`);
+                setTimeout(() => resolve(value + 5), 300);
+            });
+        }
+
+        function step2(value) {
+            return new Promise(resolve => {
+                console.log(`2. Крок: Додано 5. Поточне значення: ${value}`);
+                setTimeout(() => resolve(value * 3), 300);
+            });
+        }
+        
+        function runPromiseChainExample() {
+            console.log("\n--- Ланцюжок Промісів ---");
+            step1(10)
+                .then(resultFromStep1 => step2(resultFromStep1))
+                .then(finalResult => {
+                    console.log("3. Крок: Фінальний результат:", finalResult); // 45
+                })
+                .catch(error => {
+                    console.error("Помилка в ланцюжку:", error);
+                });
+        }
+
+
+        // =======================================================
+        // e. Функції Promise.all, Promise.race, Promise.allSettled, Promise.any
+        // =======================================================
+        function runPromiseCombinators() {
+            console.log("\n--- Комбінатори Промісів ---");
+            const pA = DELAY(1500).then(() => 'A: Успіх (1.5с)');
+            const pB = DELAY(500).then(() => 'B: Успіх (0.5с)');
+            const pC = DELAY(1000).then(() => { throw new Error('C: Помилка (1с)'); });
+            
+            // Promise.all
+            Promise.all([pA, pB])
+                .then(results => console.log("Promise.all (Успіх):", results)); 
+            
+            // Promise.race
+            Promise.race([pA, pB, pC])
+                .then(result => console.log("Promise.race (Перший успіх):", result)) // B
+                .catch(e => console.error("Promise.race (Перша помилка):", e.message));
+                
+            // Promise.allSettled
+            Promise.allSettled([pA, pB, pC])
+                .then(results => console.log("Promise.allSettled (Всі статуси):", results));
+                
+            // Promise.any
+            Promise.any([pC, pB]) // Поверне B, бо C завершиться помилкою, а B успіхом
+                .then(result => console.log("Promise.any (Перший успішний):", result))
+                .catch(e => console.error("Promise.any (Усі помилки):", e));
+        }
+
+
+        // =======================================================
+        // f. Async та await
+        // =======================================================
+        async function runAsyncAwait() {
+            console.log("\n--- Async/await ---");
+            console.log("1. Початок виконання.");
+            
+            // Асинхронна пауза, яка виглядає як синхронна
+            await DELAY(1000); 
+            console.log("2. Пройшла 1 секунда.");
+
+            // Використовуємо await з іншою асинхронною функцією (Promise)
+            const result = await riskyOperation(false);
+            console.log(`3. Результат після очікування: ${result}`);
+
+            console.log("4. Завершено.");
+        }
+        
+        
+        // =======================================================
+        // g. Асинхронні ітератори та h. Асинхронні генератори
+        // =======================================================
+        async function* asyncGenerator() {
+            console.log("1. Запуск Async Generator.");
+            await DELAY(300); 
+            yield "Перше асинхронне значення";
+
+            await DELAY(500);
+            yield "Друге асинхронне значення";
+            
+            await DELAY(200);
+            yield "Третє асинхронне значення";
+        }
+
+        async function runAsyncGeneratorExample() {
+            console.log("\n--- Async Generator (for await...of) ---");
+            console.log("Початок циклу...");
+            for await (const value of asyncGenerator()) {
+                console.log(`Згенеровано: ${value}`);
+            }
+            console.log("Цикл Async Generator завершено.");
+        }
+
+        
+        // =======================================================
+        // --- ЗАВДАННЯ ВАРІАНТУ: Promise.allSettled ---
+        // =======================================================
+        function loadSource(sourceName, delayMs, shouldFail = false) {
+            return new Promise((resolve, reject) => {
+                console.log(`[${sourceName}] Запущено (затримка ${delayMs} мс)`);
+                setTimeout(() => {
+                    if (shouldFail) {
+                        reject(new Error(`[${sourceName}] Помилка мережі/даних.`));
+                    } else {
+                        resolve(`[${sourceName}] Дані успішно отримані.`);
+                    }
+                }, delayMs);
+            });
+        }
+
+        async function loadAllSourcesSequentially() {
+            console.log("\n=======================================================");
+            console.log(">>> ЗАВДАННЯ ВАРІАНТУ: Promise.allSettled <<<");
+            
+            // Три асинхронні запити з різними затримками та один з помилкою
+            const source1 = loadSource('Source-1', 1500, false);
+            const source2 = loadSource('Source-2', 500, false); // Завершиться найшвидше
+            const source3 = loadSource('Source-3', 2500, true); // Завершиться найповільніше і з помилкою
+
+            const allPromises = [source1, source2, source3];
+
+            console.log("... Очікування завершення ВСІХ запитів (навіть помилкових) ...");
+
+            // Promise.allSettled чекає, поки ВСІ Проміси перейдуть у стан settled (fulfilled або rejected)
+            const results = await Promise.allSettled(allPromises);
+
+            console.log("\n--- Фінальний результат Promise.allSettled (за порядком визначення) ---");
+            
+            results.forEach((result, index) => {
+                console.log(`[Result ${index + 1}] Status: ${result.status}`);
+                if (result.status === 'fulfilled') {
+                    console.log(`  ✅ Value: ${result.value}`);
+                } else {
+                    console.error(`  ❌ Reason: ${result.reason.message}`);
+                }
+            });
+
+            console.log("=======================================================");
+        }
+
+    </script>
+</body>
+</html>
+
+<!---
+2. Зробить свої приклади коду для наступних тем:
+a. асинхронні функції з використанням функцій зворотного виклику
+b. асинхронні функції з використанням промісу
+c. Обробка помилок у Promise
+d. Створення ланцюжків промісів
+e. Функції Promise.all, Promise.allSettled, Promise.any та Promise.race
+f. Async та await
+g. Асинхронні ітератори
+h. Асинхронні генератори.
+
+1. Асинхронне завантаження з трьох джерел: Створіть функцію, 
+яка викликає три асинхронні запити з різними затримками і 
+виводить результат у порядку завершення за допомогою Promise.allSettled.
+-->
